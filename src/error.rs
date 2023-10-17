@@ -176,6 +176,7 @@ impl fmt::Display for Error {
         }
     }
 }
+impl std::error::Error for Error {}
 
 #[inline]
 pub fn result<T, E: IntoError>(code: ErrorCode, r: Result<T, E>)
