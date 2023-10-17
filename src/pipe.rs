@@ -1,6 +1,6 @@
 use std::io;
 use std::mem;
-use std::os::unix::io::{RawFd};
+use std::os::unix::io::{RawFd, AsRawFd};
 
 use nix::unistd::pipe2;
 use nix::fcntl::OFlag;
@@ -54,7 +54,6 @@ impl Drop for Pipe {
 
 impl PipeReader {
     /// Extract file descriptor from pipe reader without closing
-    // TODO(tailhook) implement IntoRawFd here
     pub fn into_fd(self) -> RawFd {
         let PipeReader(fd) = self;
         mem::forget(self);
@@ -64,11 +63,22 @@ impl PipeReader {
 
 impl PipeWriter {
     /// Extract file descriptor from pipe reader without closing
-    // TODO(tailhook) implement IntoRawFd here
     pub fn into_fd(self) -> RawFd {
         let PipeWriter(fd) = self;
         mem::forget(self);
         return fd;
+    }
+}
+
+impl AsRawFd for PipeReader {
+    fn as_raw_fd(&self) -> RawFd {
+        self.0
+    }
+}
+
+impl AsRawFd for PipeWriter {
+    fn as_raw_fd(&self) -> RawFd {
+        self.0
     }
 }
 
