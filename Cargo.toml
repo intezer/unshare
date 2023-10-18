@@ -15,7 +15,7 @@ edition = "2018"
 
 [dependencies]
 libc = "0.2.93"
-nix = "0.20.0"
+nix = "0.21.2"
 
 [dev-dependencies]
 argparse = "0.2.2"
